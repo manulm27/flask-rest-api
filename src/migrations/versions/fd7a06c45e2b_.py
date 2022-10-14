@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 0739f5359b47
+Revision ID: fd7a06c45e2b
 Revises: 
-Create Date: 2022-10-14 00:59:33.776327
+Create Date: 2022-10-14 21:48:47.180317
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '0739f5359b47'
+revision = 'fd7a06c45e2b'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -27,7 +27,9 @@ def upgrade():
     sa.Column('created', sa.String(length=250), nullable=True),
     sa.Column('mass', sa.Integer(), nullable=True),
     sa.Column('height', sa.Integer(), nullable=True),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('id'),
+    sa.UniqueConstraint('name')
     )
     op.create_table('planets',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -40,26 +42,29 @@ def upgrade():
     sa.Column('surface_water', sa.Integer(), nullable=True),
     sa.Column('created', sa.Integer(), nullable=True),
     sa.Column('population', sa.Integer(), nullable=True),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('id'),
+    sa.UniqueConstraint('name')
     )
     op.create_table('users',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('username', sa.String(length=100), nullable=False),
-    sa.Column('name', sa.String(length=70), nullable=False),
-    sa.Column('lastname', sa.String(length=70), nullable=False),
-    sa.Column('email', sa.String(length=120), nullable=False),
+    sa.Column('username', sa.String(length=100), nullable=True),
+    sa.Column('name', sa.String(length=70), nullable=True),
+    sa.Column('lastname', sa.String(length=70), nullable=True),
+    sa.Column('email', sa.String(length=120), nullable=True),
     sa.Column('password', sa.String(length=80), nullable=False),
     sa.Column('is_active', sa.Boolean(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
-    sa.UniqueConstraint('id')
+    sa.UniqueConstraint('id'),
+    sa.UniqueConstraint('username')
     )
     op.create_table('favorite_character',
     sa.Column('users_id', sa.Integer(), nullable=False),
-    sa.Column('characters_id', sa.Integer(), nullable=True),
+    sa.Column('characters_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['characters_id'], ['characters.id'], ),
     sa.ForeignKeyConstraint(['users_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('users_id')
+    sa.PrimaryKeyConstraint('users_id', 'characters_id')
     )
     op.create_table('favorite_planet',
     sa.Column('users_id', sa.Integer(), nullable=False),

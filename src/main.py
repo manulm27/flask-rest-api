@@ -33,62 +33,77 @@ def handle_invalid_usage(error):
 # generate sitemap with all your endpoints
 @app.route('/')
 def sitemap():
-    return generate_sitemap(app)
+    return generate_sitemap(app), 200
+
+@app.route('/people', methods=["GET"])
+def get_all_people():
+    all_people = Characters.query.all()
+    list_people = list(map(lambda obj:obj.serialize(), all_people))
+    response_body ={
+        'all_people': list_people
+    }
+    return jsonify(response_body), 200
+
+@app.route('/people/<int:id>', methods=['GET'])
+def get_people(id):
+    all_people = Characters.query.all()
+    data_people = list(map(lambda obj:obj.serialize(), characters))
+    for people in data_people:
+        if people['id'] == id:
+            return jsonify({"people": people}), 200
+
+@app.route('/planets', methods=["GET"])
+def get_all_planets():
+    all_planets = Planets.query.all()
+    list_planets = list(map(lambda obj:obj.serialize(), all_planets))
+    response_body ={
+        'all_planets': list_planets
+    }
+    return jsonify(response_body), 200
+
+@app.route('/planet/<int:id>', methods=['GET'])
+def get_planet(id):
+    all_planets = Characters.query.all()
+    data_planet = list(map(lambda obj:obj.serialize(), all_planets))
+    for planet in data_planet:
+        if planet['id'] == id:
+            return jsonify({"planet": planet}), 200
 
 @app.route('/users', methods=['GET', 'POST'])
-def get_users():
+def get_all_users():
     if request.method == 'GET':
-        users = Users.query.all()
-        listUsers = list(map(lambda obj:obj.serialize(), users))
-        print(listUsers)
+        all_users = Users.query.all()
+        list_users = list(map(lambda obj:obj.serialize(), all_users))
         response_body = {
-            "Users": listUsers
+            "users": list_users
             }
         return jsonify(response_body), 200
     else:
         body = request.get_json()
-        person = ""
-        for user in body:
-            person = user
+        new_user = ""
+        for data_user in body:
+            new_user = data_user
         data = Users()
-        data.id = person['id']
-        data.username = person['username']
-        data.name = person['name']
-        data.lastname = person['lastname']
-        data.email = person['email']
-        data.password = person['password']
-        data.is_active = person['is_active']
+        data.id = new_user['id']
+        data.username = new_user['username']
+        data.name = new_user['name']
+        data.lastname = new_user['lastname']
+        data.email = new_user['email']
+        data.password = new_user['password']
+        data.is_active = new_user['is_active']
         db.session.add(data)
         db.session.commit()
 
         return jsonify({"succes":"new user added"}), 200
 
-
-@app.route('/users/<int:id>', methods=['GET'])
+@app.route('/user/<int:id>', methods=['GET'])
 def get_user(id):
-    users = Users.query.all()
-    listUsers = list(map(lambda obj:obj.serialize(), users))
-    print(type(users))
-    for user in listUsers:
+    all_users = Users.query.all()
+    list_users = list(map(lambda obj:obj.serialize(), users))
+    for user in list_users:
         if user['id'] == id:
-            return jsonify({"User": user}), 200
+            return jsonify({"user": user}), 200
 
-@app.route('/characters', methods=['GET'])
-def get_characters():
-    characters = Characters.query.all()
-    listCharacters = list(map(lambda obj:obj.serialize(), characters))
-    response_body = {
-        "Characters": listCharacters
-        }
-    return jsonify(response_body), 200
-
-@app.route('/characters/<int:id>', methods=['GET'])
-def get_character(id):
-    characters = Characters.query.all()
-    listCharacters = list(map(lambda obj:obj.serialize(), characters))
-    for character in listCharacters:
-        if character['id'] == id:
-            return jsonify({"Character": character}), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
