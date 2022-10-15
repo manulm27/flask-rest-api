@@ -15,7 +15,7 @@ fav_planets = db.Table('favorite_planet',
 
 class Users(db.Model):
     __tablename__ = 'users'
-    id = db.Column(db.Integer, unique=True, primary_key=True)
+    id = db.Column(db.Integer, unique=True, primary_key=True, autoincrement=True)
     username = db.Column(db.String(100), unique=True, nullable=True)
     name = db.Column(db.String(70), unique=False, nullable=True)
     lastname  = db.Column(db.String(70), unique=False, nullable=True)
@@ -40,11 +40,10 @@ class Users(db.Model):
 
 class Characters(db.Model):
     __tablename__ = 'characters'
-    id = db.Column(db.Integer, unique=True, primary_key=True)
+    id = db.Column(db.Integer, unique=True, primary_key=True, autoincrement=True)
     name = db.Column(db.String(250), unique=True, nullable=False)
     gender = db.Column(db.String(250), nullable=False)
     skin_color = db.Column(db.String(250), nullable=False)
-    birth_year = db.Column(db.String(250), nullable=False)
     created = db.Column(db.String(250), nullable=False)
     mass = db.Column(db.Integer, nullable=False)
     height = db.Column(db.Integer, nullable=False)
@@ -59,7 +58,6 @@ class Characters(db.Model):
             "name": self.name,
             "gender": self.gender,
             "skin_color": self.skin_color,
-            "birth_rear": self.birth_year,
             "created": self.created,
             "mass": self.mass,
             "height": self.height
@@ -68,16 +66,13 @@ class Characters(db.Model):
 
 class Planets(db.Model):
     __tablename__ = 'planets'
-    id = db.Column(db.Integer, unique=True, primary_key=True)
+    id = db.Column(db.Integer, unique=True, primary_key=True, autoincrement=True)
     name = db.Column(db.String(250), unique=True, nullable=False)
     diameter = db.Column(db.Integer, nullable=False)
     rotation_period = db.Column(db.Integer, nullable=False)
     orbital_period = db.Column(db.Integer, nullable=False)
     terrain = db.Column(db.String(250), nullable=False)
     climate = db.Column(db.String(250), nullable=False)
-    surface_water = db.Column(db.Integer, nullable=False)
-    created = db.Column(db.Integer, nullable=False)
-    population = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
         return '<Planets %r>' % self.name
@@ -91,9 +86,6 @@ class Planets(db.Model):
             "orbital_period" : self.rotation_period,
             "terrain": self.terrain,
             "climate": self.climate,
-            "surface_water": self.surface_water,
-            "created": self.created,
-            "population" : self.population
         }
 
 
