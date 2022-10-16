@@ -17,9 +17,9 @@ class Users(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, unique=True, primary_key=True, autoincrement=True)
     username = db.Column(db.String(100), unique=True, nullable=True)
-    name = db.Column(db.String(70), unique=False, nullable=True)
-    lastname  = db.Column(db.String(70), unique=False, nullable=True)
-    email = db.Column(db.String(120), unique=True, nullable=True)
+    name = db.Column(db.String(70), unique=False, nullable=False)
+    lastname  = db.Column(db.String(70), unique=False, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), nullable=False)
     characters = relationship('Characters', secondary=fav_characters)
@@ -42,11 +42,11 @@ class Characters(db.Model):
     __tablename__ = 'characters'
     id = db.Column(db.Integer, unique=True, primary_key=True, autoincrement=True)
     name = db.Column(db.String(250), unique=True, nullable=False)
-    gender = db.Column(db.String(250), nullable=False)
-    skin_color = db.Column(db.String(250), nullable=False)
-    created = db.Column(db.String(250), nullable=False)
-    mass = db.Column(db.Integer, nullable=False)
-    height = db.Column(db.Integer, nullable=False)
+    gender = db.Column(db.String(250), nullable=True)
+    skin_color = db.Column(db.String(250), nullable=True)
+    created = db.Column(db.String(250), nullable=True)
+    mass = db.Column(db.Integer, nullable=True)
+    height = db.Column(db.Integer, nullable=True)
 
     def __repr__(self):
         return '<Characters %r>' % self.name
@@ -68,11 +68,11 @@ class Planets(db.Model):
     __tablename__ = 'planets'
     id = db.Column(db.Integer, unique=True, primary_key=True, autoincrement=True)
     name = db.Column(db.String(250), unique=True, nullable=False)
-    diameter = db.Column(db.Integer, nullable=False)
-    rotation_period = db.Column(db.Integer, nullable=False)
-    orbital_period = db.Column(db.Integer, nullable=False)
-    terrain = db.Column(db.String(250), nullable=False)
-    climate = db.Column(db.String(250), nullable=False)
+    diameter = db.Column(db.Integer, nullable=True)
+    rotation_period = db.Column(db.Integer, nullable=True)
+    orbital_period = db.Column(db.Integer, nullable=True)
+    terrain = db.Column(db.String(250), nullable=True)
+    climate = db.Column(db.String(250), nullable=True)
 
     def __repr__(self):
         return '<Planets %r>' % self.name
