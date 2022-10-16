@@ -166,12 +166,7 @@ def update_character(id):
     new_data = ""
     for data in body:
         new_data = data
-    character.name = new_data['name']
-    character.gender = new_data['gender']
-    character.skin_color = new_data['skin_color']
-    character.created = new_data['created']
-    character.mass = new_data['mass']
-    character.height = new_data['height']
+    update_data = Characters.query.filter_by(name=character.name).update(new_data)
     db.session.commit()
     return jsonify({'succes': 'update character'})
 
@@ -208,12 +203,7 @@ def update_planet(id):
     new_data = ""
     for data in body:
         new_data = data
-    planet.name = new_data['name']
-    planet.diameter = new_data['diameter']
-    planet.rotation_period = new_data['rotation_period']
-    planet.orbital_period = new_data['orbital_period']
-    planet.terrain = new_data['terrain']
-    planet.climate = new_data['climate']
+    update_data = Planets.query.filter_by(name=planet.name).update(new_data)
     db.session.commit()
     return jsonify({'succes': 'update character'})
 
