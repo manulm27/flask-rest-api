@@ -156,12 +156,11 @@ def add_character():
 
 @app.route('/character/update/<int:id>', methods=['PUT'])
 def update_character(id):
-    character = Characters.query.get(id)
     body = request.get_json()
     new_data = ""
     for data in body:
         new_data = data
-    update_data = Characters.query.filter_by(name=character.name).update(new_data)
+    update_data = Characters.query.filter_by(id=id).update(new_data)
     db.session.commit()
     return jsonify({'succes': 'update character'})
 
@@ -193,13 +192,11 @@ def add_planet():
 
 @app.route('/planet/update/<int:id>', methods=['PUT'])
 def update_planet(id):
-    planet = Planets.query.get(id)
     body = request.get_json()
     new_data = ""
     for data in body:
         new_data = data
-    update_data = Planets.query.filter_by(name=planet.name).update(new_data)
-    db.session.commit()
+    update_data = Planets.query.filter_by(id=id).update(new_data)
     return jsonify({'succes': 'update character'})
 
 @app.route('/planet/del/<int:id>', methods=['DELETE'])
