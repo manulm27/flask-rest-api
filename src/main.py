@@ -11,8 +11,6 @@ from admin import setup_admin
 from models import db, Users, Characters, Planets
 #from models import Person
 
-os.environ['DB_CONNECTION_STRING'] = 'mysql+mysqlconnector://root@localhost/star_wars'
-
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_CONNECTION_STRING')
