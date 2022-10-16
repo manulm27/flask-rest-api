@@ -178,7 +178,7 @@ def update_character(id):
 @app.route('/character/del/<int:id>', methods=['DELETE'])
 def del_character(id):
     character = Characters.query.get(id)
-    character.delete()
+    db.session.delete(character)
     db.session.commit()
 
     return jsonify({"succes": "delete character"})
@@ -220,7 +220,7 @@ def update_planet(id):
 @app.route('/planet/del/<int:id>', methods=['DELETE'])
 def del_planet(id):
     planet = Planets.query.get(id)
-    planet.delete()
+    db.session.delete(planet)
     db.session.commit()
 
     return jsonify({"succes": "delete planet"})
