@@ -74,13 +74,7 @@ def get_all_users():
         new_user = ""
         for data_user in body:
             new_user = data_user
-        model = Users()
-        model.username = new_user['username']
-        model.name = new_user['name']
-        model.lastname = new_user['lastname']
-        model.email = new_user['email']
-        model.password = new_user['password']
-        model.is_active = new_user['is_active']
+        model = Users(username=new_user['username'], name=new_user['name'], lastname=new_user['lastname'], email=new_user['email'], password=new_user['password'], is_active=new_user['is_active'])
         db.session.add(model)
         db.session.commit()
 
@@ -144,13 +138,7 @@ def add_character():
     new_character = ""
     for data_character in body:
         new_character = data_character
-    model = Characters()
-    model.name = new_character['name']
-    model.gender = new_character['gender']
-    model.skin_color = new_character['skin_color']
-    model.created = new_character['created']
-    model.mass = new_character['mass']
-    model.height = new_character['height']
+    model = Characters(name=new_character['name'])
     db.session.add(model)
     db.session.commit()
 
@@ -171,7 +159,6 @@ def del_character(id):
     character = Characters.query.get(id)
     db.session.delete(character)
     db.session.commit()
-
     return jsonify({"succes": "delete character"})
 
 @app.route('/planet/add', methods=['POST'])
@@ -180,16 +167,9 @@ def add_planet():
     new_planet = ""
     for data_planet in body:
         new_planet = data_planet
-    model = Planets()
-    model.name = new_planet['name']
-    model.diameter = new_planet['diameter']
-    model.rotation_period = new_planet['rotation_period']
-    model.orbital_period = new_planet['orbital_period']
-    model.terrain = new_planet['terrain']
-    model.climate = new_planet['climate']
+    model = Planets(name=new_planet['name'])
     db.session.add(model)
     db.session.commit()
-
     return jsonify({'succes': 'add new planet'})
 
 @app.route('/planet/update/<int:id>', methods=['PUT'])
@@ -206,7 +186,6 @@ def del_planet(id):
     planet = Planets.query.get(id)
     db.session.delete(planet)
     db.session.commit()
-
     return jsonify({"succes": "delete planet"})
 
 # this only runs if `$ python src/main.py` is executed
