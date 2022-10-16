@@ -15,11 +15,8 @@ os.environ['DB_CONNECTION_STRING'] = 'mysql+mysqlconnector://root@localhost/star
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
-
-"""Database configuration (where it is located)"""
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_CONNECTION_STRING')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 MIGRATE = Migrate(app, db)
 db.init_app(app)
 CORS(app)
